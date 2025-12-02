@@ -1,0 +1,36 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}{{ action }} задачу - PyTask Manager{% endblock %}
+
+{% block content %}
+<h2>{{ action }} задачу</h2>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            {% if field.field.widget.input_type == 'checkbox' %}
+                <label style="display: flex; align-items: center;">
+                    {{ field }}
+                    <span style="margin-left: 8px;">{{ field.label }}</span>
+                </label>
+            {% else %}
+                <label>{{ field.label }}</label>
+                {{ field }}
+            {% endif %}
+            {% if field.help_text %}
+                <span class="helptext">{{ field.help_text }}</span>
+            {% endif %}
+            {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn">{{ action }}</button>
+    <a href="{% url 'task_list' %}" style="margin-left: 10px;">Отмена</a>
+</form>
+{% endblock %}
+

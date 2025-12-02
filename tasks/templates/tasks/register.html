@@ -1,0 +1,31 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Регистрация - PyTask Manager{% endblock %}
+
+{% block content %}
+<h2>Регистрация</h2>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <span class="helptext">{{ field.help_text }}</span>
+            {% endif %}
+            {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn">Зарегистрироваться</button>
+</form>
+<div class="link">
+    <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+</div>
+{% endblock %}
+
